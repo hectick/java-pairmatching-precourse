@@ -2,11 +2,14 @@ package pairmatching.controller;
 
 import pairmatching.constant.Course;
 import pairmatching.model.FileReader;
+import pairmatching.model.Pair;
 import pairmatching.model.PairMatcher;
+import pairmatching.view.OutputView;
 
 import java.util.List;
 
 public class Controller {
+    OutputView outputView;
     List<String> backendCrewNames;
     List<String> frontendCrewNames;
     PairMatcher matcher;
@@ -14,6 +17,7 @@ public class Controller {
     public Controller(){
         setCrewNamesList();
         matcher = new PairMatcher();
+        outputView = new OutputView();
     }
 
     private void setCrewNamesList(){
@@ -23,11 +27,13 @@ public class Controller {
     }
 
     public void execute(){
-
+        List<Pair> pairs = matchPairs(frontendCrewNames, Course.FRONTEND);
+        outputView.printPairMatchingResult(pairs);
     }
 
-    private void matchPairs(List<String> backendCrewNames, Course course){
-        matcher.match(backendCrewNames, course);
+    private List<Pair> matchPairs(List<String> backendCrewNames, Course course){
+        List<Pair> pairs = matcher.match(backendCrewNames, course);
+        return pairs;
     }
 
 

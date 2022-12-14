@@ -22,8 +22,10 @@ public class PairMatcher {
             pair.add(crewNames.get(i+1));
             if(i == crewNames.size()-3){
                 pair.add(crewNames.get(i+2));
+                pairs.add(pair);
                 break;
             }
+            pairs.add(pair);
         }
         return pairs;
     }
