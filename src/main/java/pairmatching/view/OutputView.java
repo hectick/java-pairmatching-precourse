@@ -40,4 +40,8 @@ public class OutputView {
         System.out.println("네 | 아니오");
     }
 
+    public void printInitializeMessage(){
+        System.out.println("초기화 되었습니다.");
+    }
+
 }
