@@ -73,6 +73,13 @@ public class Controller {
         try{
             outputView.printCourseAndMission();
             selection = inputView.readCourseAndLevelAndMissionSelections();
+            if(checkAlreadyPairMatching(selection)){
+                outputView.printRematchingMessage();
+                String input = inputView.readRematchingSelection();
+                if(input.equals("아니오")){
+                    return;
+                }
+            }
             List<Pair> pairs = new ArrayList<>();
             if(Course.BACKEND.isNameEqual(selection.get(0))){
                 pairs = matcher.match(backendCrewNames);
@@ -88,6 +95,7 @@ public class Controller {
             matchPairs();
         }
     }
+
     private void lookUpPairs(){
         List<String> selection;
         try{
@@ -104,6 +112,12 @@ public class Controller {
         }
     }
 
+    private boolean checkAlreadyPairMatching(List<String> selection){
+        if(findMatchingResult(selection) != null){
+            return true;
+        }
+        return false;
+    }
 
     private MatchingResult findMatchingResult(List<String> selection){
         for(int i = 0; i < matchingResults.size(); i++){
