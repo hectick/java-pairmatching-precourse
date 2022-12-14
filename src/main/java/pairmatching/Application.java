@@ -1,5 +1,6 @@
 package pairmatching;
 
+import pairmatching.controller.Controller;
 import pairmatching.model.FileReader;
 
 import java.util.List;
@@ -7,10 +8,8 @@ import java.util.List;
 public class Application {
     public static void main(String[] args) {
         // TODO 구현 진행
-        FileReader reader = new FileReader();
-        List<String> list = reader.readCrewNames("./src/main/resources/backend-crew.md");
-
-        System.out.println(list);
+        Controller controller = new Controller();
+        controller.execute();
 
     }
 }
