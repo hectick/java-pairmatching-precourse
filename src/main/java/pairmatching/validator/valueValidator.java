@@ -9,4 +9,10 @@ public class valueValidator {
             throw new IllegalArgumentException(OutputMessage.INVALID_INPUT_MESSAGE);
         }
     }
+
+    public void validateRematchingSelection(String input){
+        if(!input.equals("네") && !input.equals("아니오")){
+            throw new IllegalArgumentException(OutputMessage.INVALID_INPUT_MESSAGE);
+        }
+    }
 }
