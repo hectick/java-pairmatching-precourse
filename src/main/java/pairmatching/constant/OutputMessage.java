@@ -8,4 +8,5 @@ public class OutputMessage {
     public static final String INVALID_LEVEL_MESSAGE = "[ERROR] 존재하지 않는 레벨입니다";
     public static final String INVALID_MISSION_MESSAGE = "[ERROR] 올바르지 않은 미션입니다";
     public static final String INVALID_NUMBER_OF_VALUES_MESSAGE = "[ERROR] 입력값의 개수를 확인해주세요";
+    public static final String NO_MORE_MATCHING_MESSAGE = "[ERROR] 더 이상 매칭이 불가능합니다.";
 }

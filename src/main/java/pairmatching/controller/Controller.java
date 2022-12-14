@@ -2,6 +2,7 @@ package pairmatching.controller;
 
 import pairmatching.constant.Course;
 import pairmatching.constant.Level;
+import pairmatching.constant.OutputMessage;
 import pairmatching.model.FileReader;
 import pairmatching.model.MatchingResult;
 import pairmatching.model.Pair;
@@ -21,6 +22,7 @@ public class Controller {
     private List<MatchingResult> matchingResults;
     private PairMatcher matcher;
     private boolean isContinued;
+    private int duplication;
 
     public Controller(){
         setCrewNamesList();
@@ -29,6 +31,7 @@ public class Controller {
         outputView = new OutputView();
         matchingResults = new ArrayList<>();
         isContinued = true;
+        duplication = 0;
     }
 
     private void setCrewNamesList(){
@@ -87,8 +90,17 @@ public class Controller {
                 }else {
                     pairs = matcher.match(frontendCrewNames);
                 }
+                if(pairs.size() == 0){
+                    outputView.printErrorMessage(OutputMessage.NO_MORE_MATCHING_MESSAGE);
+                    return;
+                }
                 if(!checkDuplicatedPairInSameLevel(pairs, selection)){
                     break;
+                }
+                duplication++;
+                if(duplication >= 3){
+                    outputView.printErrorMessage(OutputMessage.NO_MORE_MATCHING_MESSAGE);
+                    return;
                 }
             }
             MatchingResult result = new MatchingResult(pairs, Course.getCourse(selection.get(0)), Level.getLevel(selection.get(1)), selection.get(2));
