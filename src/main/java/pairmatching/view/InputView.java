@@ -8,4 +8,11 @@ public class InputView {
         String input = Console.readLine();
         return input;
     }
+
+    public String readRematchingSelect(){
+        String input = Console.readLine();
+        return input;
+    }
+
+
 }
