@@ -7,17 +7,17 @@ import java.util.List;
 
 public class InputView {
 
-    public String readFunctionSelect(){
+    public String readFunctionSelection(){
         String input = Console.readLine();
         return input;
     }
 
-    public String readRematchingSelect(){
+    public String readRematchingSelection(){
         String input = Console.readLine();
         return input;
     }
 
-    public List<String> readCourseAndLevelAndMissionSelects(){
+    public List<String> readCourseAndLevelAndMissionSelections(){
         String line = Console.readLine();
         List<String> inputs = parse(line);
         return inputs;
