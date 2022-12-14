@@ -3,6 +3,9 @@ package pairmatching.validator;
 import pairmatching.constant.Course;
 import pairmatching.constant.Level;
 import pairmatching.constant.OutputMessage;
+import pairmatching.model.Pair;
+
+import java.util.List;
 
 public class ValueValidator {
 
@@ -36,6 +39,12 @@ public class ValueValidator {
         }
         if(!Level.valueOf(level).contains(mission)){
             throw new IllegalArgumentException(OutputMessage.INVALID_MISSION_MESSAGE);
+        }
+    }
+
+    public void validateNumberOfInputs(List<String> inputs){
+        if(inputs.size() != 3){
+            throw new IllegalArgumentException(OutputMessage.INVALID_NUMBER_OF_VALUES_MESSAGE);
         }
     }
 }
