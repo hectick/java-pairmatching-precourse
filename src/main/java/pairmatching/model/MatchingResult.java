@@ -43,6 +43,24 @@ public class MatchingResult {
         return pairs;
     }
 
+    public boolean havePair(Pair pair){
+        for(int i = 0; i < pairs.size(); i++){
+            int count = 0;
+            if(pairs.get(i).contains(pair.getPairCrewNames().get(0))){
+                count ++;
+            }
+            if(pairs.get(i).contains(pair.getPairCrewNames().get(1))){
+                count ++;
+            }
+            if(pair.getPairCrewNames().size() == 3 && pairs.get(i).contains(pair.getPairCrewNames().get(2))){
+                count ++;
+            }
+            if(count >= 2){
+                return true;
+            }
+        }
+        return false;
+    }
 
 
 }

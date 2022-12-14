@@ -81,11 +81,15 @@ public class Controller {
                 }
             }
             List<Pair> pairs = new ArrayList<>();
-            if(Course.BACKEND.isNameEqual(selection.get(0))){
-                pairs = matcher.match(backendCrewNames);
-
-            }else {
-                pairs = matcher.match(frontendCrewNames);
+            while(true){
+                if(Course.BACKEND.isNameEqual(selection.get(0))){
+                    pairs = matcher.match(backendCrewNames);
+                }else {
+                    pairs = matcher.match(frontendCrewNames);
+                }
+                if(!checkDuplicatedPairInSameLevel(pairs, selection)){
+                    break;
+                }
             }
             MatchingResult result = new MatchingResult(pairs, Course.getCourse(selection.get(0)), Level.getLevel(selection.get(1)), selection.get(2));
             matchingResults.add(result);
@@ -94,6 +98,20 @@ public class Controller {
             outputView.printErrorMessage(e.getMessage());
             matchPairs();
         }
+    }
+
+    private boolean checkDuplicatedPairInSameLevel(List<Pair> pairs, List<String> selection){
+        for(int i = 0; i < matchingResults.size(); i++){
+            if(!matchingResults.get(i).isLevelEqual(Level.getLevel(selection.get(0)))){
+                continue;
+            }
+            for(int j = 0; j < pairs.size(); j++){
+                if(matchingResults.get(i).havePair(pairs.get(j))){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private void lookUpPairs(){

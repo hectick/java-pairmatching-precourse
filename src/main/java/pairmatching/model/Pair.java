@@ -10,6 +10,10 @@ public class Pair {
         pairCrewNames = new ArrayList<>();
     }
 
+    public List<String> getPairCrewNames(){
+        return pairCrewNames;
+    }
+
     public int size(){
         return pairCrewNames.size();
     }
@@ -28,6 +32,16 @@ public class Pair {
         }
         return pairStatement;
     }
+
+    public boolean contains(String crewName){
+        for(int i = 0; i < pairCrewNames.size(); i++){
+            if(pairCrewNames.get(i).equals(crewName)){
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 
 }
