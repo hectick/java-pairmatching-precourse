@@ -11,8 +11,9 @@ public class PairMatcher {
 
     }
 
-    public List<Pair> match(List<String> crewNames, Course course){
+    public List<Pair> match(List<String> crewNames){
         List<Pair> pairs = new ArrayList<>();
+        crewNames = shuffle(crewNames);
         for(int i = 0; i < crewNames.size(); i++){
             if(i%2 == 1){ //i가 홀수
                 continue;
@@ -30,7 +31,7 @@ public class PairMatcher {
         return pairs;
     }
 
-    private List<String> shuffle(List<String> crewNames, Course course){
+    private List<String> shuffle(List<String> crewNames){
         return Randoms.shuffle(crewNames);
     }
 }

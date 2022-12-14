@@ -49,4 +49,8 @@ public class OutputView {
         System.out.println(OutputMessage.NO_MATCHING_HISTORY_MESSAGE);
     }
 
+    public void printErrorMessage(String errorMessage){
+        System.out.println(errorMessage);
+    }
+
 }

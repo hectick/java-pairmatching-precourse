@@ -29,15 +29,17 @@ public class ValueValidator {
     }
 
     public void validateLevelAndMission(String level, String mission){
+        Level tmp = Level.get(0);
         for(int i = 0; i < Level.size(); i++){
             if(Level.get(i).isNameEqual(level)){
+                tmp = Level.get(i);
                 break;
             }
             if(i == Level.size()-1){
                 throw new IllegalArgumentException(OutputMessage.INVALID_LEVEL_MESSAGE);
             }
         }
-        if(!Level.valueOf(level).contains(mission)){
+        if(!tmp.contains(mission)){
             throw new IllegalArgumentException(OutputMessage.INVALID_MISSION_MESSAGE);
         }
     }

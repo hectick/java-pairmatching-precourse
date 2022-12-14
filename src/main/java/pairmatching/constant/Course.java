@@ -10,6 +10,12 @@ public enum Course {
         this.name = name;
     }
 
+    public static Course getCourse(String name){
+        if(BACKEND.isNameEqual(name)){
+            return BACKEND;
+        }
+        return FRONTEND;
+    }
     public boolean isNameEqual(String name){
         if(this.name.equals(name)){
             return true;
