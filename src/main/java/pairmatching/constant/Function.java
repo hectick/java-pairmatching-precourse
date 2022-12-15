@@ -4,7 +4,7 @@ public enum Function {
     PAIR_MATCH("1"),
     PAIR_DISPLAY("2"),
     PAIR_INITIALIZE("3"),
-    QUIT("Q"),
+    QUIT("Q");
 
     private String option;
 

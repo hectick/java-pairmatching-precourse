@@ -1,6 +1,7 @@
 package pairmatching.controller;
 
 import pairmatching.constant.Function;
+import pairmatching.model.InputInformation;
 import pairmatching.model.MatchingResult;
 import pairmatching.view.InputView;
 import pairmatching.view.OutputView;
@@ -47,7 +48,7 @@ public class MainController {
         try{
             OutputView.printCourseAndMission();
             List<String> inputs = InputView.readCourseAndLevelAndMissionSelections();
-            pairMatchingController.runPairMatcher(inputs);
+            pairMatchingController.execute(convert(inputs));
         }catch(IllegalArgumentException e){
             OutputView.printErrorMessage(e.getMessage());
             matchPairs();
@@ -58,7 +59,7 @@ public class MainController {
         try{
             OutputView.printCourseAndMission();
             List<String> inputs = InputView.readCourseAndLevelAndMissionSelections();
-            MatchingResult result = pairMatchingController.searchMatchingResult(inputs);
+            MatchingResult result = pairMatchingController.searchMatchingResult(convert(inputs));
             if(result == null){
                 OutputView.printNoMatchingHistoryMessage();
                 return;
@@ -78,6 +79,11 @@ public class MainController {
     public boolean isContinued(){
         return isContinued;
     }
+
+    private InputInformation convert(List<String> inputs){
+        return new InputInformation(inputs);
+    }
+
 
 
 }

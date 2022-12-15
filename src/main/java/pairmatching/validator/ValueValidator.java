@@ -22,7 +22,7 @@ public class ValueValidator {
     }
 
     public static void validateCourse(String input){
-        if(Course.BACKEND.isNameEqual(input) || Course.FRONTEND.isNameEqual(input)){
+        if(Course.BACKEND.getName().equals(input) || Course.FRONTEND.getName().equals(input)){
             return;
         }
         throw new IllegalArgumentException(OutputMessage.INVALID_COURSE_MESSAGE);
@@ -31,7 +31,7 @@ public class ValueValidator {
     public static void validateLevelAndMission(String level, String mission){
         Level tmp = Level.get(0);
         for(int i = 0; i < Level.size(); i++){
-            if(Level.get(i).isNameEqual(level)){
+            if(Level.get(i).getName().equals(level)){
                 tmp = Level.get(i);
                 break;
             }

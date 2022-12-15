@@ -29,20 +29,12 @@ public enum Level {
         return size;
     }
 
-    public static Level getLevel(String name){
-        for(int i = 0; i < size(); i++){
-            if(list[i].name.equals(name)){
-                return list[i];
-            }
-        }
-        return null;
+    public String getName(){
+        return name;
     }
 
-    public boolean isNameEqual(String name){
-        if(this.name.equals(name)){
-            return true;
-        }
-        return false;
+    public List<String> getMissions(){
+        return missions;
     }
 
     public boolean contains(String mission){
