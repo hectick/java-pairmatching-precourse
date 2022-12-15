@@ -1,167 +1,78 @@
 package pairmatching.controller;
 
-import pairmatching.constant.Course;
-import pairmatching.constant.Level;
-import pairmatching.constant.OutputMessage;
-import pairmatching.model.FileReader;
+import pairmatching.constant.Function;
 import pairmatching.model.MatchingResult;
-import pairmatching.model.Pair;
-import pairmatching.model.PairMatcher;
 import pairmatching.view.InputView;
 import pairmatching.view.OutputView;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class Controller {
-    private InputView inputView;
-    private OutputView outputView;
-    private List<String> backendCrewNames;
-    private List<String> frontendCrewNames;
-    private List<MatchingResult> matchingResults;
-    private PairMatcher matcher;
+public class MainController {
     private boolean isContinued;
-    private int duplication;
+    private PairMatchingController pairMatchingController;
 
-    public Controller(){
-        setCrewNamesList();
-        matcher = new PairMatcher();
-        inputView = new InputView();
-        outputView = new OutputView();
-        matchingResults = new ArrayList<>();
+    public MainController(){
         isContinued = true;
-        duplication = 0;
-    }
-
-    private void setCrewNamesList(){
-        FileReader reader = new FileReader();
-        backendCrewNames = reader.readCrewNames("./src/main/resources/backend-crew.md");
-        frontendCrewNames = reader.readCrewNames("./src/main/resources/frontend-crew.md");
+        pairMatchingController = new PairMatchingController();
     }
 
     public void execute(){
-        String selection = getFunctionSelection();
-        if(selection.equals("1")){
+        String option = selectFunction();
+        if(option.equals(Function.PAIR_MATCH.getOption())){
             matchPairs();
-            return;
         }
-        if(selection.equals("2")){
-            lookUpPairs();
-            return;
+        if(option.equals(Function.PAIR_DISPLAY.getOption())){
+            displayPairs();
         }
-        if(selection.equals("3")){
-            initialize();
-            return;
+        if(option.equals(Function.PAIR_INITIALIZE.getOption())){
+            initializePairs();
         }
-        if(selection.equals("Q")){
+        if(option.equals(Function.QUIT.getOption())){
             isContinued = false;
         }
     }
 
-    private String getFunctionSelection(){ //Q입력했을때 뭔가 이상함
-        String selection = "";
+    private String selectFunction(){
         try{
-            outputView.printFunctions();
-            selection = inputView.readFunctionSelection();
-            return selection;
+            OutputView.printFunctions();
+            String input = InputView.readFunctionSelection();
+            return input;
         }catch(IllegalArgumentException e){
-            outputView.printErrorMessage(e.getMessage());
-            getFunctionSelection();
+            OutputView.printErrorMessage(e.getMessage());
+            return selectFunction(); //return 써주기!
         }
-        return selection;
     }
 
     private void matchPairs(){
-        List<String> selection;
         try{
-            outputView.printCourseAndMission();
-            selection = inputView.readCourseAndLevelAndMissionSelections();
-            if(checkAlreadyPairMatching(selection)){
-                outputView.printRematchingMessage();
-                String input = inputView.readRematchingSelection();
-                if(input.equals("아니오")){
-                    return;
-                }
-            }
-            List<Pair> pairs = new ArrayList<>();
-            while(true){
-                if(Course.BACKEND.isNameEqual(selection.get(0))){
-                    pairs = matcher.match(backendCrewNames);
-                }else {
-                    pairs = matcher.match(frontendCrewNames);
-                }
-                if(pairs.size() == 0){
-                    outputView.printErrorMessage(OutputMessage.NO_MORE_MATCHING_MESSAGE);
-                    return;
-                }
-                if(!checkDuplicatedPairInSameLevel(pairs, selection)){
-                    break;
-                }
-                duplication++;
-                if(duplication >= 3){
-                    outputView.printErrorMessage(OutputMessage.NO_MORE_MATCHING_MESSAGE);
-                    return;
-                }
-            }
-            MatchingResult result = new MatchingResult(pairs, Course.getCourse(selection.get(0)), Level.getLevel(selection.get(1)), selection.get(2));
-            matchingResults.add(result);
-            outputView.printPairMatchingResult(result.getPairs());
+            OutputView.printCourseAndMission();
+            List<String> inputs = InputView.readCourseAndLevelAndMissionSelections();
+            pairMatchingController.runPairMatcher(inputs);
         }catch(IllegalArgumentException e){
-            outputView.printErrorMessage(e.getMessage());
+            OutputView.printErrorMessage(e.getMessage());
             matchPairs();
         }
     }
 
-    private boolean checkDuplicatedPairInSameLevel(List<Pair> pairs, List<String> selection){
-        for(int i = 0; i < matchingResults.size(); i++){
-            if(!matchingResults.get(i).isLevelEqual(Level.getLevel(selection.get(0)))){
-                continue;
-            }
-            for(int j = 0; j < pairs.size(); j++){
-                if(matchingResults.get(i).havePair(pairs.get(j))){
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    private void lookUpPairs(){
-        List<String> selection;
+    private void displayPairs(){
         try{
-            outputView.printCourseAndMission();
-            selection = inputView.readCourseAndLevelAndMissionSelections();
-            MatchingResult result = findMatchingResult(selection);
+            OutputView.printCourseAndMission();
+            List<String> inputs = InputView.readCourseAndLevelAndMissionSelections();
+            MatchingResult result = pairMatchingController.searchMatchingResult(inputs);
             if(result == null){
-                outputView.printNoMatchingHistoryMessage();
+                OutputView.printNoMatchingHistoryMessage();
+                return;
             }
-            outputView.printPairMatchingResult(result.getPairs());
+            OutputView.printPairMatchingResult(result.getPairs());
         }catch(IllegalArgumentException e){
-            outputView.printErrorMessage(e.getMessage());
-            lookUpPairs();
+            OutputView.printErrorMessage(e.getMessage());
+            displayPairs();
         }
     }
 
-    private boolean checkAlreadyPairMatching(List<String> selection){
-        if(findMatchingResult(selection) != null){
-            return true;
-        }
-        return false;
-    }
-
-    private MatchingResult findMatchingResult(List<String> selection){
-        for(int i = 0; i < matchingResults.size(); i++){
-            MatchingResult tmp = matchingResults.get(i);
-            if(tmp.isCourseEqual(Course.getCourse(selection.get(0))) && tmp.isLevelEqual(Level.getLevel(selection.get(1))) && tmp.isMissionEqual(selection.get(2))){
-                return tmp;
-            }
-        }
-        return null;
-    }
-
-    private void initialize(){
-        matchingResults = new ArrayList<>();
-        outputView.printInitializeMessage();
+    private void initializePairs(){
+        pairMatchingController.reset();
+        OutputView.printInitializeMessage();
     }
 
     public boolean isContinued(){
