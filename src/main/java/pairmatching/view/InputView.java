@@ -7,30 +7,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InputView {
-    ValueValidator validator = new ValueValidator();
 
-    public String readFunctionSelection(){
+    public static String readFunctionSelection(){
         String input = Console.readLine();
-        validator.validateFunctionSelection(input);
+        ValueValidator.validateFunctionSelection(input);
         return input;
     }
 
-    public String readRematchingSelection(){
+    public static String readRematchingSelection(){
         String input = Console.readLine();
-        validator.validateRematchingSelection(input);
+        ValueValidator.validateRematchingSelection(input);
         return input;
     }
 
-    public List<String> readCourseAndLevelAndMissionSelections(){
+    public static List<String> readCourseAndLevelAndMissionSelections(){
         String line = Console.readLine();
         List<String> inputs = parse(line);
-        validator.validateNumberOfInputs(inputs);
-        validator.validateCourse(inputs.get(0));
-        validator.validateLevelAndMission(inputs.get(1), inputs.get(2));
+        ValueValidator.validateNumberOfInputs(inputs);
+        ValueValidator.validateCourse(inputs.get(0));
+        ValueValidator.validateLevelAndMission(inputs.get(1), inputs.get(2));
         return inputs;
     }
 
-    private List<String> parse(String line){
+    private static List<String> parse(String line){
         List<String> words = new ArrayList<>();
         String[] array = line.split(",");
         for(int i = 0; i < array.length; i++){

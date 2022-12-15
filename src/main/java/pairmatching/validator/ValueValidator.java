@@ -9,26 +9,26 @@ import java.util.List;
 
 public class ValueValidator {
 
-    public void validateFunctionSelection(String input){
+    public static void validateFunctionSelection(String input){
         if(!input.equals("1") && !input.equals("2") && !input.equals("3") && !input.equals("Q")){
             throw new IllegalArgumentException(OutputMessage.INVALID_INPUT_MESSAGE);
         }
     }
 
-    public void validateRematchingSelection(String input){
+    public static void validateRematchingSelection(String input){
         if(!input.equals("네") && !input.equals("아니오")){
             throw new IllegalArgumentException(OutputMessage.INVALID_INPUT_MESSAGE);
         }
     }
 
-    public void validateCourse(String input){
+    public static void validateCourse(String input){
         if(Course.BACKEND.isNameEqual(input) || Course.FRONTEND.isNameEqual(input)){
             return;
         }
         throw new IllegalArgumentException(OutputMessage.INVALID_COURSE_MESSAGE);
     }
 
-    public void validateLevelAndMission(String level, String mission){
+    public static void validateLevelAndMission(String level, String mission){
         Level tmp = Level.get(0);
         for(int i = 0; i < Level.size(); i++){
             if(Level.get(i).isNameEqual(level)){
@@ -44,7 +44,7 @@ public class ValueValidator {
         }
     }
 
-    public void validateNumberOfInputs(List<String> inputs){
+    public static void validateNumberOfInputs(List<String> inputs){
         if(inputs.size() != 3){
             throw new IllegalArgumentException(OutputMessage.INVALID_NUMBER_OF_VALUES_MESSAGE);
         }

@@ -10,7 +10,6 @@ import pairmatching.model.PairMatcher;
 import pairmatching.view.InputView;
 import pairmatching.view.OutputView;
 
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,11 +58,12 @@ public class Controller {
         }
     }
 
-    private String getFunctionSelection(){
+    private String getFunctionSelection(){ //Q입력했을때 뭔가 이상함
         String selection = "";
         try{
             outputView.printFunctions();
             selection = inputView.readFunctionSelection();
+            return selection;
         }catch(IllegalArgumentException e){
             outputView.printErrorMessage(e.getMessage());
             getFunctionSelection();
