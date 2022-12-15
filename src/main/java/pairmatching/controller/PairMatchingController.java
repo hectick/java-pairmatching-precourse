@@ -38,6 +38,9 @@ public class PairMatchingController {
             if(sign.equals("아니오")){
                 return;
             }
+            if(searchMatchingResult(inputs) != null){
+                matchingResults.remove(searchMatchingResult(inputs));
+            }
             runPairMatcher(inputs);
         }catch(IllegalArgumentException e){
             OutputView.printErrorMessage(e.getMessage());

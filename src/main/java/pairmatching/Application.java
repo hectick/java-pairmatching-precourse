@@ -9,6 +9,5 @@ public class Application {
         while(controller.isContinued()){
             controller.execute();
         }
-
     }
 }
